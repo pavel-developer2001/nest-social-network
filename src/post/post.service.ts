@@ -36,7 +36,11 @@ export class PostService {
   }
 
   findAll() {
-    return this.repository.find();
+    return this.repository.find({
+      order: {
+        _id: 'DESC',
+      },
+    });
   }
 
   findOne(id: number) {
@@ -49,6 +53,7 @@ export class PostService {
 
   async update(id: number, updatePostDto: UpdatePostDto, userId: number) {
     try {
+      console.log(id, updatePostDto, userId);
       await this.repository.update(id, {
         text: updatePostDto.text,
         user: { _id: userId },

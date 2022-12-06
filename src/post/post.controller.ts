@@ -62,12 +62,17 @@ export class PostController {
 
   @UseGuards(JwtAuthGuard)
   @Patch(':id')
-  update(
+  async update(
     @Param('id') id: string,
     @Body() updatePostDto: UpdatePostDto,
     @User() userId: number,
   ) {
-    return this.postService.update(+id, updatePostDto, userId);
+    try {
+      console.log('con', +id, updatePostDto, userId);
+      return this.postService.update(+id, updatePostDto, userId);
+    } catch (error) {
+      console.log('error', error);
+    }
   }
 
   @UseGuards(JwtAuthGuard)

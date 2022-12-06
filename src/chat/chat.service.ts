@@ -32,7 +32,11 @@ export class ChatService {
   }
 
   findAll() {
-    return this.repository.find();
+    return this.repository.find({
+      order: {
+        _id: 'DESC',
+      },
+    });
   }
 
   findOne(id: number) {
