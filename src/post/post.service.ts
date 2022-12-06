@@ -51,17 +51,12 @@ export class PostService {
     return this.repository.find({ where: { user: { _id: userId } } });
   }
 
-  async update(id: number, updatePostDto: UpdatePostDto, userId: number) {
-    try {
-      console.log(id, updatePostDto, userId);
-      await this.repository.update(id, {
-        text: updatePostDto.text,
-        user: { _id: userId },
-      });
-      return this.repository.findOne({ where: { _id: id } });
-    } catch (error) {
-      console.error('error', error);
-    }
+  async updatePost(id: number, updatePostDto: UpdatePostDto, userId: number) {
+    await this.repository.update(id, {
+      text: updatePostDto.text,
+      user: { _id: userId },
+    });
+    return this.repository.findOne({ where: { _id: id } });
   }
 
   async remove(id: number, userId: number) {

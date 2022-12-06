@@ -29,6 +29,25 @@ export class PostController {
   ) {}
 
   @UseGuards(JwtAuthGuard)
+  @Get('/user')
+  findByUser(@User() userId: number) {
+    return this.postService.findByUser(userId);
+  }
+  @UseGuards(JwtAuthGuard)
+  @Patch(':id')
+  async update(
+    @Param('id') id: number,
+    @Body() updatePostDto: UpdatePostDto,
+    @User() userId: number,
+  ) {
+    try {
+      return await this.postService.updatePost(id, updatePostDto, userId);
+    } catch (error) {
+      console.log('errr', error);
+    }
+  }
+
+  @UseGuards(JwtAuthGuard)
   @UseInterceptors(FileInterceptor('image'))
   @Post()
   async create(
@@ -53,26 +72,6 @@ export class PostController {
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.postService.findOne(+id);
-  }
-  @UseGuards(JwtAuthGuard)
-  @Get('/user')
-  findByUser(@User() userId: number) {
-    return this.postService.findByUser(userId);
-  }
-
-  @UseGuards(JwtAuthGuard)
-  @Patch(':id')
-  async update(
-    @Param('id') id: string,
-    @Body() updatePostDto: UpdatePostDto,
-    @User() userId: number,
-  ) {
-    try {
-      console.log('con', +id, updatePostDto, userId);
-      return this.postService.update(+id, updatePostDto, userId);
-    } catch (error) {
-      console.log('error', error);
-    }
   }
 
   @UseGuards(JwtAuthGuard)
