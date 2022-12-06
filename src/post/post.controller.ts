@@ -36,9 +36,13 @@ export class PostController {
     @UploadedFile() file: Express.Multer.File,
     @User() userId: number,
   ) {
-    const newPost = await this.postService.create(createPostDto, userId);
-    await this.cloudinary.uploadImagePost(file, newPost._id);
-    return this.postService.findOne(newPost._id);
+    try {
+      const newPost = await this.postService.create(createPostDto, userId);
+      await this.cloudinary.uploadImagePost(file, newPost._id);
+      return await this.postService.findOne(newPost._id);
+    } catch (error) {
+      console.log('error', error);
+    }
   }
 
   @Get()
