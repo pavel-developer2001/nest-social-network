@@ -20,6 +20,11 @@ export class ChatMemberController {
     return this.chatMemberService.joinToChat(id, userId);
   }
 
+  @UseGuards(JwtAuthGuard)
+  @Get('/check/:id')
+  checkFollower(@Param('id') id: string, @User() userId: number) {
+    return this.chatMemberService.checkFollower(+id, userId);
+  }
 
   @Get(':id')
   findMembersByChat(@Param('id') id: string) {
@@ -28,7 +33,7 @@ export class ChatMemberController {
 
   @UseGuards(JwtAuthGuard)
   @Delete(':id')
-  unsubscribeByChat(@Param('id') id: string,@User() userId: number) {
-    return this.chatMemberService.unsubscribeByChat(+id,userId);
+  unsubscribeByChat(@Param('id') id: string, @User() userId: number) {
+    return this.chatMemberService.unsubscribeByChat(+id, userId);
   }
 }

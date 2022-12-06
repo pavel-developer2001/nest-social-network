@@ -16,6 +16,13 @@ export class ChatMemberService {
       user: { _id: userId },
     });
   }
+  async checkFollower(id: number, userId: number) {
+    const check = await this.repository.findOne({
+      where: { _id: id, user: { _id: userId } },
+    });
+    if (check) return true;
+    return false;
+  }
 
   joinAdminForChat(chatId: number, userId: number) {
     return this.repository.save({
